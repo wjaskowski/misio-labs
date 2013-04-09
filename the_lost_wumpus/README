@@ -1,0 +1,26 @@
+Aby stworzyć nowego agenta najlepiej skopiować isstniejącego (na przykład random_agent.py lub
+snake_agent.py) i napisać własne implementacje metod __init__, move oraz histogram. Nie należy
+zmieniać nazwy klasy ani wymienionych metod (nazwę pliku oczywiście można zmieniać dowoli).
+
+Po utworzeniu agenta można obejrzeć jego zachowanie przechodząc przechodząc do foldery zawierającego
+sktyp uruchamiający framework i wywołując:
+> launcher.py -v AGENT ŚRODOWISKO
+Na przykład polecenie:
+> launcher.py -v agents/random_agent.py worlds/localization1.in
+wyświetli zachowanie losowego agenta w środowisku opisanym w pliku 'localization1.in'.
+
+Aby zliczyć liczbę wszystkich ruchów wykonanych przez agenta umieszczanego kolejno w kilku
+środowiskach należy wywołać polecenie:
+> launcher.py [-n N] AGENT ŚRODOWISKO [ŚRODOWISKO ...]
+gdzie ŚRODOWISKO może być folderem zawierającym co najmniej jeden plik opisujący środowisko.
+Liczba N określa ile razy agent będzie umieszczany w każdym z podanych środowisk (domyślnie raz).
+Przykładowe polecenie:
+> launcher.py -n 100 agents/snake_agent.py worlds
+Zliczy liczbę ruchów, które wykonał agent poruszający się 'wężykiem' będąc umieszczonym po sto razy
+w każdym ze środowisk znajdujących się w folderze 'worlds'.
+UWAGA!!! Podczas zliczania ruchów w każdym środowisku agent może wykonać co najwyżej
+(2 * liczba pól środowiska) ruchów. Jest to zabezpieczenie przed zapętleniem się agenta.
+
+Długie listy argumentów można umieszczać w plikach o formacie jeden argument na linię. Listę
+argumentów zapisaną w pliku przekazuje się do programu wykorzystując składnię polecenia:
+> launcher.py @PLIK
