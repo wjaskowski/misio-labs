@@ -128,6 +128,7 @@ class GUI(gtk.Window):
         """Akcja wykonywana po wcisnieciu przycisku Reset"""
 
         self.env.reset(self.agent_factory)
+        self.env.step_sense()
         self.__refresh()
         self.step_button.set_sensitive(True)
 
