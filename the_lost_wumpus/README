@@ -1,6 +1,6 @@
 Aby stworzyć nowego agenta najlepiej skopiować isstniejącego (na przykład random_agent.py lub
-snake_agent.py) i napisać własne implementacje metod __init__, move oraz histogram. Nie należy
-zmieniać nazwy klasy ani wymienionych metod (nazwę pliku oczywiście można zmieniać dowoli).
+snake_agent.py) i napisać własne implementacje metod __init__, sense, move oraz histogram. Nie
+należy zmieniać nazwy klasy ani wymienionych metod (nazwę pliku oczywiście można zmieniać dowoli).
 
 Po utworzeniu agenta można obejrzeć jego zachowanie przechodząc przechodząc do foldery zawierającego
 sktyp uruchamiający framework i wywołując:

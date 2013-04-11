@@ -30,10 +30,14 @@ class Agent:
         # dopisac reszte inicjalizacji agenta
         return
 
+    # nie zmieniac naglowka metody, tutaj agent dokonuje obserwacji swiata
+    # sensor przyjmuje wartosc True gdy agent ma uczucie stania w jamie
+    def sense(self, sensor):
+        pass
+
     # nie zmieniac naglowka metody, tutaj agent decyduje w ktora strone sie ruszyc,
-    # sensor przyjmuje wartosc True gdy agent ma uczucie stania w jamie, funkcja MUSI zwrocic
-    # jedna z wartosci [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]
-    def move(self, sensor):
+    # funkcja MUSI zwrocic jedna z wartosci [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]
+    def move(self):
         if self.times_moved < self.width - 1:
             self.times_moved += 1
             return self.direction

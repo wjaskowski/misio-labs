@@ -130,11 +130,16 @@ class Env:
         self.__randomize_sensor_state()
         return
 
-    def step(self):
+    def step_sense(self):
+        """Zmusza agenta znajdujacego sie w srodowisku do dokonania obserwacji."""
+
+        self.agent.sense(self.agent_sensor)
+
+    def step_move(self):
         """Zmusza agenta znajdujacego sie w srodowisku do wykonania nastepnego ruchu."""
 
         self.agent_steps_counter += 1
-        self.agent_last_action = self.agent.move(self.agent_sensor)
+        self.agent_last_action = self.agent.move()
         self.__randomize_agent_motion()
         self.__randomize_sensor_state()
         return
@@ -149,9 +154,11 @@ class Env:
 
         if max_steps is None:
             while not self.is_completed():
-                self.step()
+                self.step_sense()
+                self.step_move()
         else:
             for i in range(max_steps):
-                self.step()
+                self.step_sense()
+                self.step_move()
                 if self.is_completed():
                     break

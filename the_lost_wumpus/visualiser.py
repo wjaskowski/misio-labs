@@ -35,6 +35,7 @@ class GUI(gtk.Window):
         self.agent_factory = agent_factory
         self.env = environment
         self.env.reset(self.agent_factory)
+        self.env.step_sense()
 
         self.draw_width = self.env.width * GUI.__BOX_SIZE
         self.draw_height = self.env.height * GUI.__BOX_SIZE
@@ -51,7 +52,7 @@ class GUI(gtk.Window):
         self.denorm_chbox = gtk.CheckButton(GUI.__DENORM_LABEL_TEXT)
         self.denorm_chbox.connect("toggled", self.switch_mode, None)
 
-        self.step_button = gtk.Button("Step")
+        self.step_button = gtk.Button("Move & sense")
         self.step_button.connect("clicked", self.step, None)
         self.step_button.set_size_request(self.draw_width - (2 * GUI.__MARGIN), -1)
 
@@ -117,7 +118,8 @@ class GUI(gtk.Window):
     def step(self, widget, data=None):
         """Akcja wykonywana po wcisnieciu przycisku Step"""
 
-        self.env.step()
+        self.env.step_move()
+        self.env.step_sense()
         self.__refresh()
         self.step_button.set_sensitive(not self.env.is_completed())
 

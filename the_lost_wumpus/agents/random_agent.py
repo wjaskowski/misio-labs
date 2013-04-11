@@ -34,10 +34,15 @@ class Agent:
                 row[i] = min(row[i], 1)
                 row[i] = max(row[i], 0)
 
+    # nie zmieniac naglowka metody, tutaj agent dokonuje obserwacji swiata
+    # sensor przyjmuje wartosc True gdy agent ma uczucie stania w jamie
+    def sense(self, sensor):
+        self._update_hist()
+        return dir
+
     # nie zmieniac naglowka metody, tutaj agent decyduje w ktora strone sie ruszyc,
-    # sensor przyjmuje wartosc True gdy agent ma uczucie stania w jamie, funkcja MUSI zwrocic
-    # jedna z wartosci [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]
-    def move(self, sensor):
+    # funkcja MUSI zwrocic jedna z wartosci [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]
+    def move(self):
         dir = random.choice([Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT])
         self._update_hist()
         return dir
