@@ -119,7 +119,8 @@ class GUI(gtk.Window):
         """Akcja wykonywana po wcisnieciu przycisku Step"""
 
         self.env.step_move()
-        self.env.step_sense()
+        if not self.env.is_completed():
+            self.env.step_sense()
         self.__refresh()
         self.step_button.set_sensitive(not self.env.is_completed())
 
