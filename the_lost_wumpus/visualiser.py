@@ -1,6 +1,7 @@
 import gtk
 import cairo
 from world import World
+from copy import deepcopy
 
 class GUI(gtk.Window):
     """Okienko wizualizacji zachowania agenta w srodowisku."""
@@ -23,6 +24,9 @@ class GUI(gtk.Window):
     __NSTEPS_LABEL_TEXT = 'Steps counter: {}'
     """Tresc etykiety opisujacej liczbe wykonanych ruchow."""
 
+    __DENORM_LABEL_TEXT = 'Denormalize'
+    """Tresc etykiety checkboxa okreslajacego czy histogram ma zostac zdenormalizowany."""
+
     def __init__(self, agent_factory, environment):
         """Inicjalizuje obiekt okna wizualizera."""
 
@@ -44,6 +48,9 @@ class GUI(gtk.Window):
         self.sensor_label = gtk.Label(GUI.__SENSOR_LABEL_TEXT.format(self.env.agent_sensor))
         self.nsteps_label = gtk.Label(GUI.__NSTEPS_LABEL_TEXT.format(self.env.agent_steps_counter))
 
+        self.denorm_chbox = gtk.CheckButton(GUI.__DENORM_LABEL_TEXT)
+        self.denorm_chbox.connect("toggled", self.switch_mode, None)
+
         self.step_button = gtk.Button("Step")
         self.step_button.connect("clicked", self.step, None)
         self.step_button.set_size_request(self.draw_width - (2 * GUI.__MARGIN), -1)
@@ -55,6 +62,8 @@ class GUI(gtk.Window):
         label_height = self.action_label.size_request()[1]
         button_height = self.step_button.size_request()[1]
 
+        chbox_width = self.denorm_chbox.size_request()[0]
+
         self.set_title("The Lost Wumpus")
         self.resize(self.draw_width,
                 self.draw_height + (5 * GUI.__MARGIN) + (3 * label_height) + (2 * button_height) + 1)
@@ -62,7 +71,6 @@ class GUI(gtk.Window):
         self.connect("destroy", gtk.main_quit)
 
         fix = gtk.Fixed()
-
 
         y = 1
         fix.put(self.darea, 1, y)
@@ -78,6 +86,8 @@ class GUI(gtk.Window):
         y += label_height + GUI.__MARGIN
 
         fix.put(self.nsteps_label, GUI.__MARGIN, y)
+        fix.put(self.denorm_chbox, self.draw_width - chbox_width - GUI.__MARGIN,
+                y - 3)
         y += label_height + GUI.__MARGIN
 
         fix.put(self.step_button, GUI.__MARGIN, y)
@@ -98,6 +108,11 @@ class GUI(gtk.Window):
         self.sensor_label.set_text(GUI.__SENSOR_LABEL_TEXT.format(self.env.agent_sensor))
         self.nsteps_label.set_text(GUI.__NSTEPS_LABEL_TEXT.format(self.env.agent_steps_counter))
         self.darea.queue_draw_area(0, 0, self.draw_width, self.draw_height)
+
+    def switch_mode(self, widget, data=None):
+        """Akcja wykonywana po zmianie checkboxa Denormalize"""
+
+        self.__refresh()
 
     def step(self, widget, data=None):
         """Akcja wykonywana po wcisnieciu przycisku Step"""
@@ -120,12 +135,24 @@ class GUI(gtk.Window):
         g = 2 * val if val < 0.5 else 1;
         return cairo.SolidPattern(r, g, 0)
 
+    def __denormalize_histogram(self, histogram):
+        histogram = deepcopy(histogram)
+        denominator = max(max(line) for line in histogram)
+        if denominator != 0:
+            for y in range(self.env.height):
+                for x in range(self.env.width):
+                    histogram[y][x] /= denominator
+        return histogram
+
     def expose(self, widget, event):
         """Rysuje mape srodowiska i wiedzy agenta."""
 
         cr = self.darea.window.cairo_create()
 
         histogram = self.env.agent.histogram()
+
+        if (self.denorm_chbox.get_active()):
+            histogram = self.__denormalize_histogram(histogram)
 
         for y in range(self.env.height):
             for x in range(self.env.width):
