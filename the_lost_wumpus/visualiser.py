@@ -6,9 +6,6 @@ from copy import deepcopy
 class GUI(gtk.Window):
     """Okienko wizualizacji zachowania agenta w srodowisku."""
 
-    __BOX_SIZE = 50
-    """Rozmiar pojedynczej kratki swiata."""
-
     __MARGIN = 4
     """Margines dla etykiet i przyciskow."""
 
@@ -27,18 +24,20 @@ class GUI(gtk.Window):
     __DENORM_LABEL_TEXT = 'Denormalize'
     """Tresc etykiety checkboxa okreslajacego czy histogram ma zostac zdenormalizowany."""
 
-    def __init__(self, agent_factory, environment):
+    def __init__(self, agent_factory, environment, size):
         """Inicjalizuje obiekt okna wizualizera."""
 
         super(GUI, self).__init__()
+
+        self.box_size = size
 
         self.agent_factory = agent_factory
         self.env = environment
         self.env.reset(self.agent_factory)
         self.env.step_sense()
 
-        self.draw_width = self.env.width * GUI.__BOX_SIZE
-        self.draw_height = self.env.height * GUI.__BOX_SIZE
+        self.draw_width = self.env.width * self.box_size
+        self.draw_height = self.env.height * self.box_size
 
         self.darea = gtk.DrawingArea()
         self.darea.set_size_request(self.draw_width, self.draw_height)
@@ -162,8 +161,8 @@ class GUI(gtk.Window):
             for x in range(self.env.width):
                 cr.set_line_width(0)
                 cr.set_source(self.__gradient(histogram[y][x]))
-                cr.rectangle(x * GUI.__BOX_SIZE, y * GUI.__BOX_SIZE, GUI.__BOX_SIZE - 1,
-                        GUI.__BOX_SIZE - 1)
+                cr.rectangle(x * self.box_size, y * self.box_size, self.box_size - 1,
+                        self.box_size - 1)
                 cr.fill()
 
         map = self.env.map
@@ -174,27 +173,27 @@ class GUI(gtk.Window):
             for x in range(self.env.width):
 
                 if map[y][x] == World.CAVE:
-                    cr.rectangle(x * GUI.__BOX_SIZE + 1, y * GUI.__BOX_SIZE + 1,
-                            GUI.__BOX_SIZE - 3, GUI.__BOX_SIZE - 3)
+                    cr.rectangle(x * self.box_size + 1, y * self.box_size + 1,
+                            self.box_size - 3, self.box_size - 3)
 
                 if map[y][x] == World.EXIT:
-                    cr.move_to(x * GUI.__BOX_SIZE + 2, y * GUI.__BOX_SIZE + 2)
-                    cr.rel_line_to(GUI.__BOX_SIZE - 4,GUI.__BOX_SIZE - 4)
+                    cr.move_to(x * self.box_size + 2, y * self.box_size + 2)
+                    cr.rel_line_to(self.box_size - 4,self.box_size - 4)
 
-                    cr.move_to(x * GUI.__BOX_SIZE + 2, y * GUI.__BOX_SIZE + GUI.__BOX_SIZE - 2)
-                    cr.rel_line_to(GUI.__BOX_SIZE - 4, - GUI.__BOX_SIZE + 4)
+                    cr.move_to(x * self.box_size + 2, y * self.box_size + self.box_size - 2)
+                    cr.rel_line_to(self.box_size - 4, - self.box_size + 4)
 
         cr.stroke()
 
 
-        xc = self.env.agent_x * GUI.__BOX_SIZE + (GUI.__BOX_SIZE / 2)
-        yc = self.env.agent_y * GUI.__BOX_SIZE + (GUI.__BOX_SIZE / 2)
+        xc = self.env.agent_x * self.box_size + (self.box_size / 2)
+        yc = self.env.agent_y * self.box_size + (self.box_size / 2)
 
-        cr.arc(xc, yc, 20, 0, 2*3.1415)
+        cr.arc(xc, yc, 0.4 * self.box_size, 0, 2*3.1415)
         cr.fill()
 
-def visualise(agent_factory, environment):
+def visualise(agent_factory, environment, size):
     """Tworzy i wyswietla okienko wizualizacji."""
 
-    GUI(agent_factory, environment)
+    GUI(agent_factory, environment, size)
     gtk.main()

@@ -69,6 +69,9 @@ def env_file_or_dir(string):
 
 parser.add_argument('-v', dest='visualise', action='store_const', const=True, default=False,
         help='visualise agent behavior (only first specified ENV will be used, -n flag ignored)')
+parser.add_argument('-s', dest='size', metavar='S', type=int, default=50,
+        help='size of each box representing map location (default: 50, ignored when -v flag is\
+        absent)')
 parser.add_argument('-n', dest='trials', metavar='N', type=int, default=1,
         help='number of times an agent will be placed in each environment (default: 1)')
 parser.add_argument('agent_factory', metavar='AGENT', action=ImportAgent, type=agent_module,
@@ -82,7 +85,7 @@ args = parser.parse_args()
 if args.visualise:
     # w trybie wizualizacji wyswietl okno podgladu
     from visualiser import visualise
-    visualise(args.agent_factory, args.environments[0])
+    visualise(args.agent_factory, args.environments[0], args.size)
 else:
     # w zwyklym trybie uruchom agenta w kazdym srodowisku zadana liczbe razy i zlicz jego ruchy
     total_steps = 0
