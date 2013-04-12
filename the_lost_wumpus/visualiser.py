@@ -34,7 +34,8 @@ class GUI(gtk.Window):
         self.agent_factory = agent_factory
         self.env = environment
         self.env.reset(self.agent_factory)
-        self.env.step_sense()
+        if not self.env.is_completed():
+            self.env.step_sense()
 
         self.draw_width = self.env.width * self.box_size
         self.draw_height = self.env.height * self.box_size
@@ -54,6 +55,7 @@ class GUI(gtk.Window):
         self.step_button = gtk.Button("Move & sense")
         self.step_button.connect("clicked", self.step, None)
         self.step_button.set_size_request(self.draw_width - (2 * GUI.__MARGIN), -1)
+        self.step_button.set_sensitive(not self.env.is_completed())
 
         self.reset_button = gtk.Button("Reset")
         self.reset_button.connect("clicked", self.reset, None)
@@ -127,9 +129,10 @@ class GUI(gtk.Window):
         """Akcja wykonywana po wcisnieciu przycisku Reset"""
 
         self.env.reset(self.agent_factory)
-        self.env.step_sense()
+        if not self.env.is_completed():
+            self.env.step_sense()
         self.__refresh()
-        self.step_button.set_sensitive(True)
+        self.step_button.set_sensitive(not self.env.is_completed())
 
     def __gradient(self, val):
         """Dostarcza gradient kolorow dla wartosci histogramu."""

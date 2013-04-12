@@ -158,7 +158,7 @@ class Env:
                 self.step_move()
         else:
             for i in range(max_steps):
-                self.step_sense()
-                self.step_move()
                 if self.is_completed():
                     break
+                self.step_sense()
+                self.step_move()
