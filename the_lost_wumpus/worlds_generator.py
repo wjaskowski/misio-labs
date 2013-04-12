@@ -12,7 +12,7 @@ def generate_world(nrows, ncols, pit_prob=0.2, accurate_movement_prob=0.9,
     exit_pos = (random.randint(0,nrows-1), random.randint(0,ncols-1))
     world[exit_pos[0]][exit_pos[1]] = 'W'
 
-    wumpus_pos = (random.randint(0,nrows-1), random.randint(0,ncols-1))
+    wumpus_pos = (random.randint(1,nrows), random.randint(1,ncols))
 
     return '{:.2f}\n{:.2f} {:.2f}\n{} {}\n{}\n{} {}\n'.format(
         accurate_movement_prob,
