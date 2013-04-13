@@ -7,10 +7,10 @@ from action import Action
 class Agent:
 
     # nie zmieniac naglowka konstruktora, tutaj agent dostaje wszystkie informacje o srodowisku
-    def __init__(self, p, pj, pn, height, width, map):
+    def __init__(self, p, pj, pn, height, width, areaMap):
 
-        self.times_moved = 0;
-        self.direction = Action.LEFT;
+        self.times_moved = 0
+        self.direction = Action.LEFT
 
         # w ten sposob mozna zapamietac zmienne obiektu
         self.p = p
@@ -18,7 +18,7 @@ class Agent:
         self.pn = pn
         self.height = height
         self.width = width
-        self.map = map
+        self.map = areaMap
 
         # w tym przykladzie histogram wypelniany jest tak aby na planszy wyszedl gradient
         self.hist = []
@@ -43,7 +43,7 @@ class Agent:
             return self.direction
         else:
             self.times_moved = 0
-            self.direction = Action.RIGHT if self.direction == Action.LEFT else Action.LEFT;
+            self.direction = Action.RIGHT if self.direction == Action.LEFT else Action.LEFT
             return Action.DOWN
 
     # nie zmieniac naglowka metody, tutaj agent udostepnia swoj histogram (ten z filtru
