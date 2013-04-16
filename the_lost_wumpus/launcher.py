@@ -19,9 +19,9 @@ class ImportAgent(argparse.Action):
             exec('from ' + os.path.splitext(os.path.basename(values))[0] + ' import Agent')
             agent_factory = Agent
 
-        except:
-            msg = "can't load Agent class from '{}'".format(values)
-            raise argparse.ArgumentTypeError(msg)
+        except Exception as e:
+            msg = "can't load Agent class from '{}':\n".format(values)
+            raise argparse.ArgumentTypeError(msg + str(e))
 
         else:
             namespace.agent_factory = agent_factory
