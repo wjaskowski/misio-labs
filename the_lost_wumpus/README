@@ -16,8 +16,9 @@ gdzie ŚRODOWISKO może być folderem zawierającym co najmniej jeden plik opisu
 Liczba N określa ile razy agent będzie umieszczany w każdym z podanych środowisk (domyślnie raz).
 Przykładowe polecenie:
 > launcher.py -n 100 agents/snake_agent.py worlds
-Zliczy liczbę ruchów, które wykonał agent poruszający się 'wężykiem' będąc umieszczonym po sto razy
-w każdym ze środowisk znajdujących się w folderze 'worlds'.
+Zliczy liczbę ruchów, które wykonał agent poruszający się 'wężykiem' będąc umieszczonym 
+w każdym ze środowisk znajdujących się w folderze 'worlds'. Wynik zostanie uśredniony po 100 powtórzeniach.
+Program wypisuje: średnią liczbę kroków, odchylenie standardowe, średni czas, odchylenie standardowe
 UWAGA!!! Podczas zliczania ruchów w każdym środowisku agent może wykonać co najwyżej
 (2 * liczba pól środowiska) ruchów. Jest to zabezpieczenie przed zapętleniem się agenta.
 

@@ -5,6 +5,9 @@ import argparse
 import os.path
 import sys
 import glob
+from time import time
+import numpy as np
+from math import sqrt
 
 class ImportAgent(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -61,6 +64,19 @@ def env_file_or_dir(string):
         msg = "can't open '{}': no such file or directory".format(string)
         raise argparse.ArgumentTypeError(msg)
 
+def evaluate_agent(agent_factory, environments):
+    total_steps = 0
+    start_time = time()
+    for env in environments:
+        env.reset(agent_factory)
+        env.run(env.width * env.height * 2)
+        total_steps += env.agent_steps_counter
+    seconds_used = time() - start_time
+    return total_steps, seconds_used
+
+def conf_delta_95(arr):
+    return 1.96 * np.std(arr) / sqrt(len(arr))
+
 def main():
     """zinterpretuj i sprawdz argumenty"""
     parser = argparse.ArgumentParser(description='The Lost Wumpus framework launcher.',
@@ -89,13 +105,13 @@ def main():
         visualise(args.agent_factory, args.environments[0], args.size)
     else:
         # w zwyklym trybie uruchom agenta w kazdym srodowisku zadana liczbe razy i zlicz jego ruchy
-        total_steps = 0
-        for env in args.environments:
-            for i in range(args.trials):
-                env.reset(args.agent_factory)
-                env.run(env.width * env.height * 2)
-                total_steps += env.agent_steps_counter
-        print total_steps
+        steps = [0] * args.trials
+        seconds_used = [0] * args.trials
+        for i in range(args.trials):
+            steps[i], seconds_used[i] = evaluate_agent(args.agent_factory, args.environments)
+        print("{:.1f} {:.1f} {:.1f} {:.1f}".format(np.average(steps), conf_delta_95(steps), 
+            np.average(seconds_used), conf_delta_95(seconds_used)))
+        #TODO: timeit
 
 if __name__ == '__main__':
     main()
