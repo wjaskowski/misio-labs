@@ -109,7 +109,8 @@ def main():
         seconds_used = [0] * args.trials
         for i in range(args.trials):
             steps[i], seconds_used[i] = evaluate_agent(args.agent_factory, args.environments)
-        print("{:.1f} {:.1f} {:.1f} {:.1f}".format(np.average(steps), conf_delta_95(steps), 
+            print('{} {}'.format(steps[i], seconds_used[i]))
+        print("Summary: {:.1f} {:.1f} {:.1f} {:.1f}".format(np.average(steps), conf_delta_95(steps), 
             np.average(seconds_used), conf_delta_95(seconds_used)))
         #TODO: timeit
 
