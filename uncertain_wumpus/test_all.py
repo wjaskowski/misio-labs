@@ -27,8 +27,9 @@ def parse_cmd():
 
 
 def files_are_equal(out, correct_out):
-    outarr = " ".join(open(out).readlines()).split()
-    corarr = " ".join(open(correct_out).readlines()).split()
+    # Files are treated as lists of floats
+    outarr = [float(x) for x in " ".join(open(out).readlines()).split()]
+    corarr = [float(x) for x in " ".join(open(correct_out).readlines()).split()]
 
     return outarr == corarr;
 
@@ -38,7 +39,7 @@ def test_one(program, test):
     tmp = 'tmp.out'
     now = time.time()
     try:
-        subprocess.check_output(['python', program, test, tmp],stderr=DEVNULL,timeout=1)
+        subprocess.check_output(['python', program, test, tmp],stderr=DEVNULL,timeout=60)
     except CalledProcessError as e:
         return 'E', float('inf'), str(e)
     except TimeoutExpired as e:
