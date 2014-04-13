@@ -1,3 +1,4 @@
+# coding: utf-8
 import random
 from world import World
 from action import Action
@@ -9,11 +10,11 @@ class Env:
     - prawdopodobienstwa wykonania poprawnego ruchu (p),
     - prawdopodobienstwa wyczucia jamy gdy stoi sie w niej (pj),
     - prawdopodobienstwa wyczucia jamy gdy stoi sie poza nia (pn),
-    - pozycji poczatkowej agentow umieszczanych w srodowisku (start_y, start_x: 0 <= start_y < height, 0 <= start_x < width),
+    - (opcjonalnie) pozycji poczatkowej agentow umieszczanych w srodowisku (start_y, start_x: 0 <= start_y < height, 0 <= start_x < width),
     - wysokosci (height) i szerokosci (width) mapy,
     - mapy swiata (map).
 
-    Mapa to krotka zawierajaca height lancuchow o dlugosci width znakow kazdy. Podczas odczytywania mapy najpierw podaje sie numer wiersza (wspolrzedna y) a potem numer kolumny (wspolrzedna x).
+    Mapa to krotka zawierajaca height lancuchow o dlugosci width znakow kazdy. Podczas odczytywania mapy najpierw podaje sie numer wiersza (wspolrzedna y) a potem numer kolumny (wspolrzedna x). W przypadku pominięcia współrzędnych startowych, początkowa pozycja agenta jest losowana.
 
     Jesli w srodowisku umieszczony jest agent przechowywane sa takze nastepujace informacje:
     - obiekt z programem agenta (agent),
@@ -38,7 +39,7 @@ class Env:
         <height> <width>
         height wierszy zawierajacych width znakow okreslonych przez pola enumeracji World
         <start_y + 1> <start_x + 1>
-        Uwaga: Wspolrzedne startowe w pliku zakladaja numeracje od 1, a w srodowisku numeracja jest od 0, stad to '+ 1' przy wspolrzednych startowych.
+        Uwaga: Wspolrzedne startowe w pliku zakladaja numeracje od 1, a w srodowisku numeracja jest od 0, stad to '+ 1' przy wspolrzednych startowych. Współrzędne startowe można pominąć.
 
         Argument path to sciezka do pliku zawierajacego opis srodowiska."""
 
@@ -60,8 +61,11 @@ class Env:
         self.map = tuple(self.map)
 
         tokens = file.readline().strip().split()
-        self.start_y = int(tokens[0]) - 1
-        self.start_x = int(tokens[1]) - 1
+        if tokens:
+            self.start_y = int(tokens[0]) - 1
+            self.start_x = int(tokens[1]) - 1
+        else:
+            self.start_y = self.start_x = None
 
         file.close()
 
@@ -122,8 +126,8 @@ class Env:
         """Resetuje srodowisko i umieszcza w nim podanego w argumencie agenta."""
 
         self.agent = agent_factory(self.p, self.pj, self.pn, self.height, self.width, self.map)
-        self.agent_y = self.start_y
-        self.agent_x = self.start_x
+        self.agent_y = self.start_y if not self.start_y is None else random.randint(0, self.height - 1)
+        self.agent_x = self.start_x if not self.start_x is None else random.randint(0, self.width - 1)
         self.agent_steps_counter = 0
         self.agent_last_motion = None
         self.agent_last_action = None
