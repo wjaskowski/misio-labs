@@ -126,15 +126,12 @@ class Env:
         """Resetuje srodowisko i umieszcza w nim podanego w argumencie agenta."""
 
         self.agent = agent_factory(self.p, self.pj, self.pn, self.height, self.width, self.map)
-        if not self.start_x or not self.start_y:
-            # Jeśli nie podano pozycji startowej, wylosuj ją (ale nie na wyjściu!)
-            while True:
-                self.start_x = random.randint(0, self.width - 1)
-                self.start_y = random.randint(0, self.height - 1)
-                if self.map[self.start_x][self.start_y] != 'W':
-                    break
         self.agent_x = self.start_x
         self.agent_y = self.start_y
+        # Jeśli nie podano pozycji startowej lub wypada ona na wyjściu, wylosuj inną.
+        while self.agent_x is None or self.agent_y is None or self.map[self.agent_y][self.agent_x] == World.EXIT:
+            self.agent_x = random.randint(0, self.width - 1)
+            self.agent_y = random.randint(0, self.height - 1)
 
         self.agent_steps_counter = 0
         self.agent_last_motion = None
