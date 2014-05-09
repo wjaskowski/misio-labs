@@ -20,7 +20,7 @@ def main():
         print('OK')
         results.append((path.basename(agent), steps, times, np.average([float(s) for s in steps]), np.average([float(s) for s in times])))
 
-    results.sort(key=lambda res: res[3])
+    results.sort(key=lambda res: -res[3])
 
     with open('results.csv','w') as f:
         f.write(','.join([result[0] for result in results]) + '\n')
