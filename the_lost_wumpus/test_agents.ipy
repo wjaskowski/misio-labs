@@ -11,24 +11,27 @@ def main():
 
     results = []
     for agent in agents:
+        print(path.basename(agent))
         lines = !launcher.py $agent $worlds_dir -n $repeats
         steps = lines.fields(0)[:-1]
         times = lines.fields(1)[:-1]
         if len(steps) != repeats:
             continue
+        print('OK')
         results.append((path.basename(agent), steps, times, np.average([float(s) for s in steps]), np.average([float(s) for s in times])))
 
     results.sort(key=lambda res: res[3])
 
-    print('\t'.join([result[0] for result in results]))
-    for i in range(repeats):
-        print('\t'.join([result[1][i] for result in results]))
-    print('')
+    with open('results.csv','w') as f:
+        f.write(','.join([result[0] for result in results]) + '\n')
+        for i in range(repeats):
+            f.write(','.join([result[1][i] for result in results]) + '\n')
 
-    results.sort(key=lambda res: res[4])
-    print('\t'.join([result[0] for result in results]))
-    for i in range(repeats):
-        print('\t'.join([result[2][i] for result in results]))
+    with open('times.csv','w') as f:
+        results.sort(key=lambda res: res[4])
+        f.write(','.join([result[0] for result in results]) + '\n')
+        for i in range(repeats):
+            f.write(','.join([result[2][i] for result in results]) + '\n')
 
 if __name__ == '__main__':
     main()
