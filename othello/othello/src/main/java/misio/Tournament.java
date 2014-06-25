@@ -44,7 +44,23 @@ public class Tournament {
 		players.add(new Pair<String, OthelloPlayer>("LR06", new OthelloWPCPlayer(new LucasRunnarson2006().create(), EPS)));
 		players.add(new Pair<String, OthelloPlayer>("SJK09", new OthelloWPCPlayer(new SzubertJaskowskiKrawiec2009().create(), EPS)));
 		players.add(new Pair<String, OthelloPlayer>("SJK11", new OthelloWPCPlayer(new SzubertJaskowskiKrawiec2011().create(), EPS)));
-		players.add(new Pair<String, OthelloPlayer>("Example", new MISiOOthelloPlayer(new ExampleMoveEvaluator(random))));
+		players.add(new Pair<String, OthelloPlayer>("Random", new MISiOOthelloPlayer(new ExampleMoveEvaluator(random))));
+		players.add(new Pair<String, OthelloPlayer>("BladekMiazga", new MISiOOthelloPlayer(new Bladek100652Miazga99075MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("DabrowskiJemielewski", new MISiOOthelloPlayer(new Dabrowski100584Jemielewski100260MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Dembski", new MISiOOthelloPlayer(new DembskiKedzierskiMoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Gierszewski", new MISiOOthelloPlayer(new Gierszewski100381MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Grzyb", new MISiOOthelloPlayer(new Grzyb100998MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Jankowski", new MISiOOthelloPlayer(new Jankowski99410MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Kedzierski", new MISiOOthelloPlayer(new Kedzierski98875MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Kurek", new MISiOOthelloPlayer(new Kurek99836MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Lango", new MISiOOthelloPlayer(new Lango99616MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Lewinski", new MISiOOthelloPlayer(new Lewinski98436MoveEvaluator(random))));
+		players.add(new Pair<String, OthelloPlayer>("Tomczyk9", new MISiOOthelloPlayer(new MT99835(random))));
+		players.add(new Pair<String, OthelloPlayer>("Poszwa", new MISiOOthelloPlayer(new Poszwa88405MoveEvaluator(0))));
+		players.add(new Pair<String, OthelloPlayer>("Pralat", new MISiOOthelloPlayer(new Pralat99975Rybicki99961MoveEvaluator(random))));
+		players.add(new Pair<String, OthelloPlayer>("Surdyk", new MISiOOthelloPlayer(new Surdyk101235MoveEvaluator())));
+		players.add(new Pair<String, OthelloPlayer>("Wielinski", new MISiOOthelloPlayer(new Wielinski84900())));
+		players.add(new Pair<String, OthelloPlayer>("ZjawinWasikowski", new MISiOOthelloPlayer(new Zjawin98826Wasikowski101560MoveEvaluator(random))));
 
 		roundRobinTournament(random, players, REPEATS);
 	}
