@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import subprocess
 from subprocess import CalledProcessError, TimeoutExpired, DEVNULL
 import sys
@@ -39,9 +39,10 @@ def test_one(program, test):
     tmp = 'tmp.out'
     now = time.time()
     try:
-        subprocess.check_output(['python', program, test, tmp],stderr=DEVNULL,timeout=60)
+        subprocess.check_output(['python2.7', program, test, tmp],stderr=DEVNULL,timeout=60)
     except CalledProcessError as e:
-        return 'E', float('inf'), str(e)
+        timediff = time.time() - now
+        return 'E', timediff, str(e)
     except TimeoutExpired as e:
         return 'T', float('inf'), str(e)
 
