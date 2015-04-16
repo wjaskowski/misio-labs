@@ -109,7 +109,7 @@ class Env:
         motion = list(Env.__MOTIONS[self.agent_last_action])
 
         if random.uniform(0, 1) >= self.p:
-            motion_modification = random.choice(Env.__MOTIONS.values())
+            motion_modification = random.choice(list(Env.__MOTIONS.values()))
             motion[0] += motion_modification[0]
             motion[1] += motion_modification[1]
 

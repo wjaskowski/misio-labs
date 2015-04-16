@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 from environment import Env
 import argparse
@@ -13,7 +13,8 @@ class ImportAgent(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         try:
             sys.path.append(os.path.dirname(values))
-            exec('from ' + os.path.splitext(os.path.basename(values))[0] + ' import Agent')
+            import_str = 'from ' + os.path.splitext(os.path.basename(values))[0] + ' import Agent'
+            exec(import_str, globals())
             agent_factory = Agent
 
         except Exception as e:
