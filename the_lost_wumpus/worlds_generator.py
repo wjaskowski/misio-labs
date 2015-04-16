@@ -27,8 +27,9 @@ def produce_world(filename, **kwargs):
         f.write(world)
 
 def main():
+    WORLDS_DIR = 'test_worlds_2015'
     for i in range(10):
-        produce_world(path.join('test_worlds', 'map20x20_sparse_{:02d}.in'.format(i)), 
+        produce_world(path.join(WORLDS_DIR, 'map20x20_sparse_{:02d}.in'.format(i)), 
                 nrows=20, ncols=20, 
                 pit_prob=0.2, 
                 accurate_movement_prob=0.9, 
@@ -36,7 +37,7 @@ def main():
                 regular_cell_wrong_prob=0.1)
 
     for i in range(10):
-        produce_world(path.join('test_worlds', 'map20x20_medium_{:02d}.in'.format(i)), 
+        produce_world(path.join(WORLDS_DIR, 'map20x20_medium_{:02d}.in'.format(i)), 
                 nrows=20, ncols=20, 
                 pit_prob=0.5, 
                 accurate_movement_prob=0.99, 
@@ -44,7 +45,7 @@ def main():
                 regular_cell_wrong_prob=0.2)
 
     for i in range(40):
-        produce_world(path.join('test_worlds', 'map10x10_easy_{:02d}.in'.format(i)), 
+        produce_world(path.join(WORLDS_DIR, 'map10x10_easy_{:02d}.in'.format(i)), 
                 nrows=10, ncols=10, 
                 pit_prob=0.1, 
                 accurate_movement_prob=0.99, 
@@ -52,7 +53,7 @@ def main():
                 regular_cell_wrong_prob=0.01)
 
     for i in range(40):
-        produce_world(path.join('test_worlds', 'map10x10_hard_{:02d}.in'.format(i)), 
+        produce_world(path.join(WORLDS_DIR, 'map10x10_hard_{:02d}.in'.format(i)), 
                 nrows=10, ncols=10, 
                 pit_prob=0.2, 
                 accurate_movement_prob=0.6, 
