@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+<constants>
+    <!-- On a real octopus, tangential friction is about 50 times less than perpendicular friction -->
+    <frictionTangential>0.2</frictionTangential>
+    <frictionPerpendicular>1</frictionPerpendicular>
+    <pressure>10</pressure>
+    <gravity>0.01</gravity>
+    <surfaceLevel>5</surfaceLevel>
+    <buoyancy>0.08</buoyancy>
+    <muscleActive>0.1</muscleActive>
+    <musclePassive>0.05</musclePassive>
+    <muscleNormalizedMinLength>0.4</muscleNormalizedMinLength>
+    <muscleDamping>-0.3</muscleDamping>
+    <!-- the values 0.04 and 2.3 produce good behaviour for a 40-compartment arm -->
+    <repulsionConstant>.04</repulsionConstant> 
+    <repulsionPower>2.3</repulsionPower>
+    <repulsionThreshold>.7</repulsionThreshold>
+</constants>
+
+<environment>
+    
+
+<targetTask timeLimit="1000" stepReward="-0.01">
+    <target position="9 -1" reward="10" />
+</targetTask>
+
+<arm>
+  <nodePair>
+    <upper velocity='0 0' position='0.55 0.83' mass='1' />
+    <lower velocity='0 0' position='0.00 0.00' mass='1' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='1.39 0.28' mass='0.9900990099' />
+    <lower velocity='0 0' position='0.83 -0.55' mass='0.9900990099' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='2.22 -0.28' mass='0.9803921569' />
+    <lower velocity='0 0' position='1.66 -1.11' mass='0.9803921569' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='3.05 -0.83' mass='0.9708737864' />
+    <lower velocity='0 0' position='2.50 -1.66' mass='0.9708737864' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='3.88 -1.38' mass='0.9615384615' />
+    <lower velocity='0 0' position='3.33 -2.22' mass='0.9615384615' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='4.72 -1.94' mass='0.9523809524' />
+    <lower velocity='0 0' position='4.16 -2.77' mass='0.9523809524' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='5.55 -2.49' mass='0.8433962264' />
+    <lower velocity='0 0' position='4.99 -3.32' mass='0.8433962264' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='6.38 -3.05' mass='0.8345794393' />
+    <lower velocity='0 0' position='5.83 -3.88' mass='0.8345794393' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='7.21 -3.60' mass='0.8259259259' />
+    <lower velocity='0 0' position='6.66 -4.43' mass='0.8259259259' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='8.05 -4.15' mass='0.8174311927' />
+    <lower velocity='0 0' position='7.49 -4.99' mass='0.8174311927' />
+  </nodePair>
+  <nodePair>
+    <upper velocity='0 0' position='8.88 -4.71' mass='0.7090909091' />
+    <lower velocity='0 0' position='8.32 -5.54' mass='0.7090909091' />
+  </nodePair>
+</arm>
+
+</environment>
+
+</config>
