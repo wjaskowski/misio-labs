@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 import subprocess
 from subprocess import CalledProcessError, TimeoutExpired, DEVNULL
-import sys
-import glob
-import time
+import sys, glob, time, re
 from os import path
 import pandas as pd
 from pandas import DataFrame, Series
@@ -39,7 +37,7 @@ def test_one(program, test):
     tmp = 'tmp.out'
     now = time.time()
     try:
-        subprocess.check_output(['python2.7', program, test, tmp],stderr=DEVNULL,timeout=60)
+        subprocess.check_output(['python2.7', program, test, tmp], stderr=DEVNULL, timeout=60)
     except CalledProcessError as e:
         timediff = time.time() - now
         return 'E', timediff, str(e)
@@ -49,6 +47,8 @@ def test_one(program, test):
     timediff = time.time() - now
     return '+' if files_are_equal(tmp, test_out) else '-', timediff, ""
 
+def get_index(program):
+    return re.search('_(.+?)\.py', path.basename(program)).group(1), 
 
 def main():
     programs, tests = parse_cmd()
@@ -65,8 +65,8 @@ def main():
 
             # Save rsults to df
             df = df.append({
-                "program": path.basename(program), 
-                "test": path.basename(test), 
+                "program": get_index(program),
+                "test": path.basename(test),
                 "result": res, 
                 "time": time, 
                 "err_info": err_info,
@@ -83,7 +83,7 @@ def main():
         return Series({
             'time_sum': group['time'].sum(), 
             'correct_perc': avg(group['result']=='+'),
-            'program_len': group['program_len'].iget(1),
+            'program_len': group['program_len'].iget(0),
             'results': "".join(group['result']),
         })
 
