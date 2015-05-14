@@ -4,12 +4,14 @@ PORT=12345
 PYTHON=python2.7 # Modify to you needs
 SLEEP_TIME=0.5   # You might have to increase it in case of "unable to connect to port" problems
 
-if [ "$#" -ne 1 ]; then
-    echo "usage:\n test_agent [AgentName.py]"
+if [ "$#" -ne 2 ]; then
+    echo "usage:\n test_agent <TestDir> <AgentName.py>"
     exit 1
 fi
 
-AGENTFILE=$1
+TESTDIR=$1
+
+AGENTFILE=$2
 AGENT=`basename ${AGENTFILE%.*}`
 
 # Create directories and remove old logs
@@ -27,7 +29,7 @@ meansum()
     python -c "import sys; from numpy import mean; print(mean([sum(float(r) for r in line.split()) for line in sys.stdin]))"
 }
 
-for instance in tests/*.xml; do
+for instance in $TESTDIR/*.xml; do
     test=`basename ${instance%.*}`
     printf "%-12s" "$test "
 
