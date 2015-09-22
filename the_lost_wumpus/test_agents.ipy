@@ -15,6 +15,9 @@ def main():
         lines = !launcher.py $agent $worlds_dir -n $repeats
         steps = lines.fields(0)[:-1]
         times = lines.fields(1)[:-1]
+        if any(['Traceback' in line for line in lines]):
+            for i in lines:
+                print(i)
         if len(steps) != repeats:
             continue
         print('OK')
