@@ -5,7 +5,8 @@ PYTHON=python2.7 # Modify to you needs
 SLEEP_TIME=0.5   # You might have to increase it in case of "unable to connect to port" problems
 
 if [ "$#" -ne 2 ]; then
-    echo "usage:\n test_agent <TestDir> <AgentName.py>"
+    echo "usage:"
+    echo "  test_agent.sh <TestDir> <AgentName.py>"
     exit 1
 fi
 
